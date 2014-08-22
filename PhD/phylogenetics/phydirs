@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mkdir -p phylogeny/{0.sequence_gathering,1.refgen/{species_list,original_file_without_duplicates,refgen_file},2.alignment,3.mask/{mase_file,masked_seqs,sequences_removed_for_mask},4.model_test/{selected_models,run_files},5.ml/{run_files,tree},6.bayes/{run_files,tree},7.svg/{bayes_svg,ml_svg,combined_svg},8.figure};
+
+find phylogeny -name '*.mase' -exec mv {} phylogeny/3.mask/mase_file \;
