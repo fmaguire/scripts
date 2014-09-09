@@ -32,20 +32,20 @@ def taxonomy_lookup(taxa_name):
 
     esearch_handle = Entrez.esearch(db='Taxonomy', term=taxa_name)
     esearch_record = Entrez.read(esearch_handle)
-    if esearch_record is None:
-        print "{0} failed to get entrez ID".format(taxa_name)
-        return results_queue
 
-    entrez_species_id = esearch_record['IdList'][0]
+    try:
+        entrez_species_id = esearch_record['IdList'][0]
+    except:
+        print "{0} failed to get entrez ID".format(taxa_name)
+        return None
 
     efetch_handle = Entrez.efetch(db='Taxonomy', id=entrez_species_id, retmode='xml')
     efetch_record = Entrez.read(efetch_handle)
-    if efetch_record is None:
+    try:
+        entrez_species_lineage = efetch_record[0]['Lineage']
+    except:
         print "{0} failed to get a Taxonomy".format(entrez_species_id)
-        return results_queue
-
-    entrez_species_lineage = efetch_record[0]['Lineage']
-
+        return None
     return entrez_species_lineage
 
 if __name__=='__main__':
@@ -61,7 +61,11 @@ if __name__=='__main__':
 
     for species in species_list:
         taxonomy = taxonomy_lookup(species)
-        out_str = "{0}:-    {1}\n".format(species, taxonomy)
-        taxonomy_list_fh.write(out_str)
+
+        if taxonomy is not None:
+            out_str = "{0}:-    {1}\n".format(species, taxonomy)
+            taxonomy_list_fh.write(out_str)
+        else:
+            continue
 
     taxonomy_list_fh.close()
