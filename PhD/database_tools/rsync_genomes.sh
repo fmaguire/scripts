@@ -12,5 +12,6 @@ then
     sed -i 's/\/genomes\/cider\///g' species_list.txt
     sort species_list.txt > species_list_sorted.txt
     mv species_list_sorted.txt species_list.txt
+    ./get_taxonomy_for_species_list.py species_list.txt taxonomy_list.txt
 fi
 
