@@ -1,6 +1,6 @@
 #!/bin/sh
 
-]SOURCE=$(dd if=/dev/urandom count=1 2>/dev/null | openssl dgst -md5)
+SOURCE=$(dd if=/dev/urandom count=1 2>/dev/null | openssl dgst -md5)
 MACADDR="$(echo ${SOURCE} | \
 sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\)\(..\).*$/\1:\2:\3:\4:\5:\6/')"
 
